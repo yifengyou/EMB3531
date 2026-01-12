@@ -17,7 +17,8 @@
 
 * 官网： <http://www.norco.com.cn/product_detail_359.html>
 * 垃圾佬论坛固件下载：<https://files.kos.org.cn/rockchip/EMB3531/>
-
+* ophub: <https://github.com/ophub/amlogic-s9xxx-armbian/issues/1549>
+* openhub fnos: <https://github.com/ophub/fnnas/releases>
 
 
 
