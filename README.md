@@ -19,7 +19,7 @@
 * 垃圾佬论坛固件下载：<https://files.kos.org.cn/rockchip/EMB3531/>
 * ophub: <https://github.com/ophub/amlogic-s9xxx-armbian/issues/1549>
 * openhub fnos: <https://github.com/ophub/fnnas/releases>
-
+* 拆箱视频: <https://www.bilibili.com/video/BV1Ve2fYmEqd>
 
 
 
@@ -34,13 +34,13 @@
 
 ## 相关照片
 
-![](images/fc22449e.png)
+![](./images/fc22449e.png)
 
+![](./images/79ff5ec4.png)
 
+![](./images/9a6770c0.png)
 
-
-
-
+![](./images/4950707537500.png)
 
 
 ---
