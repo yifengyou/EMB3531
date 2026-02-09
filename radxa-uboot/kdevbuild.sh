@@ -15,9 +15,6 @@ make CROSS_COMPILE=${CROSS_COMPILE_ARM64} -j`nproc`
 # Call the official build.
 ./make.sh rk3399
 
-ls -alh fit/uboot.itb
-
-cp -a fit/uboot.itb uboot.img
 ls -alh uboot.img
 md5sum uboot.img
 

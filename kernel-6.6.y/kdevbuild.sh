@@ -3,8 +3,8 @@
 set -xe
 
 # set config
-if [ -f rk3399-emb3531_defconfig ]; then
-  cp -a rk3399-emb3531_defconfig ./arch/arm64/configs/rk3399-emb3531_defconfig
+if [ -f emb3531_defconfig ]; then
+  cp -a emb3531_defconfig ./arch/arm64/configs/emb3531_defconfig
 fi
 
 if [ -f rk3399-emb3531.dts ]; then
@@ -16,7 +16,7 @@ make ARCH=arm64 \
   KBUILD_BUILD_USER="builder" \
   KBUILD_BUILD_HOST="kdevbuilder" \
   LOCALVERSION=-kdev \
-  rk3399-emb3531_defconfig
+  emb3531_defconfig
 
 # check kver
 KVER=$(make LOCALVERSION=-kdev kernelrelease)

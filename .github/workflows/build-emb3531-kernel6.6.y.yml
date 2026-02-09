@@ -3,20 +3,88 @@ name: kernel 6.6.y for EMB3531
 on:
   repository_dispatch:
   workflow_dispatch:
-    inputs: { }
+    inputs:
 
 env:
   TZ: America/New_York
 
 jobs:
-  build:
+  kdevbuild:
     runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Debian 11 (oldstable, EOL ～2026)
+          - set_release: bullseye
+            set_desktop: mini
+
+          # Debian 12 (stable)
+          - set_release: bookworm
+            set_desktop: mini
+          - set_release: bookworm
+            set_desktop: gnome
+          - set_release: bookworm
+            set_desktop: xfce
+
+          # Debian 13 (testing)
+          - set_release: trixie
+            set_desktop: mini
+          - set_release: trixie
+            set_desktop: gnome
+          - set_release: trixie
+            set_desktop: xfce
+
+          # Debian 14 (unstable, future)
+          - set_release: forky
+            set_desktop: mini
+          - set_release: forky
+            set_desktop: gnome
+          - set_release: forky
+            set_desktop: xfce
+
+          # Ubuntu 20.04 LTS (standard support ended Apr 2025)
+          #          - set_release: focal
+          #            set_desktop: mini
+
+          # Ubuntu 22.04 LTS (supported until 2027)
+          - set_release: jammy
+            set_desktop: mini
+          - set_release: jammy
+            set_desktop: gnome
+          - set_release: jammy
+            set_desktop: xfce
+
+          # Ubuntu 24.04 LTS (current LTS, supported until 2029)
+          - set_release: noble
+            set_desktop: mini
+          - set_release: noble
+            set_desktop: gnome
+          - set_release: noble
+            set_desktop: xfce
+
+          # Ubuntu 24.10 (interim release, EOL Jul 2025)
+          #          - set_release: oracular
+          #            set_desktop: mini
+          #          - set_release: oracular
+          #            set_desktop: gnome
+          #          - set_release: oracular
+          #            set_desktop: xfce
+
+          # Ubuntu 25.04 (planned interim, Apr 2025)
+          - set_release: plucky
+            set_desktop: mini
+          - set_release: plucky
+            set_desktop: gnome
+          - set_release: plucky
+            set_desktop: xfce
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Show environment
+        id: basic_info
         run: |
           nproc
           uname -a
@@ -27,14 +95,38 @@ jobs:
           cat /proc/cpuinfo
           cat /proc/meminfo
 
+      - name: Create simulated physical disk
+        run: |
+          mnt_size=$(expr $(df -h /mnt | tail -1 | awk '{print $4}' | sed 's/[[:alpha:]]//g' | sed 's/\..*//') - 1)
+          root_size=$(expr $(df -h / | tail -1 | awk '{print $4}' | sed 's/[[:alpha:]]//g' | sed 's/\..*//') - 4)
+          sudo truncate -s "${mnt_size}"G /mnt/mnt.img
+          sudo truncate -s "${root_size}"G /root.img
+          sudo losetup /dev/loop6 /mnt/mnt.img
+          sudo losetup /dev/loop7 /root.img
+          sudo pvcreate /dev/loop6
+          sudo pvcreate /dev/loop7
+          sudo vgcreate github /dev/loop6 /dev/loop7
+          sudo lvcreate -n runner -l 100%FREE github
+          sudo mkfs.xfs /dev/github/runner
+          sudo mkdir -p /builder
+          sudo mount /dev/github/runner /builder
+          sudo chown -R runner.runner /builder
+          df -Th
+
       - name: Run build in Ubuntu 22.04 container
-        working-directory: ${{ github.workspace }}
+        working-directory: /builder
         run: |
           pwd
+          sudo /bin/cp -a ${{ github.workspace }}/* .
           ls -alh
-          docker run --rm \
-            -v ${{ github.workspace }}:/workspace \
+          sudo docker run --rm \
+            --privileged \
+            --cap-add SYS_ADMIN \
+            -v /dev:/dev \
+            -v /builder:/workspace \
             -w /workspace \
+            -e set_release=${{ matrix.set_release }} \
+            -e set_desktop=${{ matrix.set_desktop }} \
             ubuntu:22.04 \
             bash -c "
               chmod +x /workspace/kdevbuild/kernel6.6.y-build-on-ubuntu22.04.sh ;
@@ -43,34 +135,37 @@ jobs:
 
       - name: List build output
         run: |
-          ls -alh  ${{ github.workspace }}/output/*
-          md5sum ${{ github.workspace }}/output/*
+          ls -alh  /builder/release/*
+          md5sum /builder/release/*
 
       - name: Upload Image to Release
         uses: ncipollo/release-action@main
         with:
           tag: EMB3531-kernel-6.6.y
-          artifacts: ${{ github.workspace }}/output/*
+          artifacts: /builder/release/*
           allowUpdates: true
+          removeArtifacts: false
           replacesArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            ### EMB3531镜像说明
+            ### 华北工控EMB3531镜像说明
 
             1. 镜像命名规则
             以 **EMB3531_k6.6.y_${RELEASE}_${DESKTOP}_update.rar** 为例
 
-            - "${RELEASE}" 发行版，可选一下几种发行版
-              - bullseye - Debian 11
-              - bookworm - Debian 12
-              - trixie   - Debian 13
-              - forky    - Debian 14
-              - focal    - Ubuntu 20.04 LTS
-              - jammy    - Ubuntu 22.04 LTS
-              - noble    - Ubuntu 24.04 LTS
-              - oracular - Ubuntu 24.10
-              - plucky   - Ubuntu 25.04
-              - resolute - Ubuntu 25.10
+            ${RELEASE}：操作系统发行版（支持以下选项）
+            Debian 系列
+            bullseye — Debian 11
+            bookworm — Debian 12
+            trixie — Debian 13
+            forky — Debian 14（开发版）
+            Ubuntu 系列
+            focal — Ubuntu 20.04 LTS
+            jammy — Ubuntu 22.04 LTS
+            noble — Ubuntu 24.04 LTS
+            oracular — Ubuntu 24.10
+            plucky — Ubuntu 25.04（开发版）
+            resolute — Ubuntu 25.10（开发版）
             - "${DESKTOP}" 桌面环境，可选 (mini,xfce,gnome)
             - 镜像类型，有两种类型
               - rockdev: RKDevTool + 分区镜像（uboot.img、boot.img、rootfs.img）
@@ -78,12 +173,10 @@ jobs:
 
             2. 系统密码
 
-            - 用户名: root   密码: 1234
+            - 用户名: root   密码: admin
             - 用户名: admin  密码: admin
-            - 用户名: teamhd 密码: teamhd
-            - 用户名: linaro 密码: linaro
 
-            3. rockdev构建输出(rockdev.rar)
+            3. rockdev镜像使用指引(文件后缀为rockdev.rar)
 
             解压后打开RKDevTool.exe，选择'下载镜像'，点击'执行'即可
 
@@ -112,7 +205,7 @@ jobs:
                     └── uboot.img
             ```
 
-            4. update镜像构建输出(update.rar)
+            4. update镜像使用指引(文件后缀为update.rar)
 
             解压后打开RKDevTool.exe，选择'升级固件'，点击'固件'，勾选镜像文件rockdev/img/update.img，点击'升级'即可
 

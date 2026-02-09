@@ -71,11 +71,15 @@ if ls "${WORKDIR}/radxa-uboot/"*.patch >/dev/null 2>&1; then
   git am ${WORKDIR}/radxa-uboot/*.patch
 fi
 
+if [ -d ${WORKDIR}/radxa-uboot ]; then
+  ls -alh ${WORKDIR}/radxa-uboot
+  cp -a ${WORKDIR}/radxa-uboot/* .
+  ls -alh
+fi
+
 # build uboot.img
-chmod +x ${WORKDIR}/radxa-uboot/emb3531.sh
-cp -a ${WORKDIR}/radxa-uboot/emb3531.sh .
-cat emb3531.sh
-./emb3531.sh
+chmod +x kdevbuild.sh
+./kdevbuild.sh
 
 mv uboot.img ${WORKDIR}/rockdev/uboot.img
 ls -alh ${WORKDIR}/rockdev/uboot.img
@@ -103,11 +107,11 @@ if [ -d ${WORKDIR}/kernel-6.6.y ]; then
 fi
 
 # build kernel Image
-if [ -f build.sh ]; then
-  chmod +x build.sh
-  ./build.sh
+if [ -f kdevbuild.sh ]; then
+  chmod +x kdevbuild.sh
+  ./kdevbuild.sh
 else
-  echo "no build.sh found!"
+  echo "no kdevbuild.sh found!"
   exit 1
 fi
 
