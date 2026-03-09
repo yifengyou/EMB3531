@@ -66,18 +66,14 @@
 * [PCIE接口使用](docs/PCIE接口使用/PCIE接口使用.md)
 * [TTL调试](docs/TTL调试/TTL调试.md)
 * [接口引脚定义](docs/接口引脚定义/接口引脚定义.md)
+* [相关图片](docs/相关图片/相关图片.md)
 
 ---
 
-## 相关照片
+## 12V电源接口
 
-![](./images/fc22449e.png)
+![](./images/112276177076400.png)
 
-![](./images/79ff5ec4.png)
-
-![](./images/9a6770c0.png)
-
-![](./images/4950707537500.png)
 
 ## TTL连接方式
 
