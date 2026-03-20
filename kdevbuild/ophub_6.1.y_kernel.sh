@@ -67,20 +67,20 @@ md5sum ${WORKDIR}/release/uboot.img
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}
-git clone https://github.com/ophub/linux-6.6.y.git linux-6.6.y.git
-cd linux-6.6.y.git
+git clone https://github.com/ophub/linux-6.1.y.git linux-6.1.y.git
+cd linux-6.1.y.git
 ls -alh
 
 # apply patch
-if ls "${WORKDIR}/ophub_6.6.y/"*.patch >/dev/null 2>&1; then
+if ls "${WORKDIR}/ophub_6.1.y/"*.patch >/dev/null 2>&1; then
   git config --global user.name yifengyou
   git config --global user.email 842056007@qq.com
-  git am ${WORKDIR}/ophub_6.6.y/*.patch
+  git am ${WORKDIR}/ophub_6.1.y/*.patch
 fi
 
-if [ -d ${WORKDIR}/ophub_6.6.y ]; then
-  ls -alh ${WORKDIR}/ophub_6.6.y/
-  cp -a ${WORKDIR}/ophub_6.6.y/* .
+if [ -d ${WORKDIR}/ophub_6.1.y ]; then
+  ls -alh ${WORKDIR}/ophub_6.1.y/
+  cp -a ${WORKDIR}/ophub_6.1.y/* .
   ls -alh
 fi
 
@@ -152,14 +152,14 @@ md5sum ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
 cp -a ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb ${WORKDIR}/release/
 
 # release config
-cp .config ${WORKDIR}/release/config-6.6.y-kdev
-ls -alh ${WORKDIR}/release/config-6.6.y-kdev
-md5sum ${WORKDIR}/release/config-6.6.y-kdev
+cp .config ${WORKDIR}/release/config-6.1.y-kdev
+ls -alh ${WORKDIR}/release/config-6.1.y-kdev
+md5sum ${WORKDIR}/release/config-6.1.y-kdev
 
 # release system map
-cp System.map ${WORKDIR}/release/System.map-6.6.y-kdev
-ls -alh ${WORKDIR}/release/System.map-6.6.y-kdev
-md5sum ${WORKDIR}/release/System.map-6.6.y-kdev
+cp System.map ${WORKDIR}/release/System.map-6.1.y-kdev
+ls -alh ${WORKDIR}/release/System.map-6.1.y-kdev
+md5sum ${WORKDIR}/release/System.map-6.1.y-kdev
 
 # release kernel modules
 if [ -d kos/lib/modules ]; then

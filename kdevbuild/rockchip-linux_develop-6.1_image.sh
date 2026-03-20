@@ -4,7 +4,7 @@ set -euxo pipefail
 
 WORKDIR=$(pwd)
 export DEBIAN_FRONTEND=noninteractive
-export BUILD_TAG="OWL_6.6.y_${set_rootfs}"
+export BUILD_TAG="OWL_develop-6.1_${set_rootfs}"
 
 #==========================================================================#
 #                        init build env                                    #
@@ -72,10 +72,10 @@ ls -alh ${WORKDIR}/rockdev/rootfs.img
 #==========================================================================#
 cd ${WORKDIR}
 
-mkdir -p ophub_6.6.y
-cd ophub_6.6.y
+mkdir -p rockchip-linux_develop-6.1
+cd rockchip-linux_develop-6.1
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.6.y_kernel/uboot.img
+wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/rockchip-linux_develop-6.1_kernel/uboot.img
 ls -alh uboot.img
 mv uboot.img ${WORKDIR}/rockdev/uboot.img
 ls -alh ${WORKDIR}/rockdev/uboot.img
@@ -86,26 +86,26 @@ md5sum ${WORKDIR}/rockdev/uboot.img
 #==========================================================================#
 cd ${WORKDIR}
 
-mkdir -p ophub_6.6.y
-cd ophub_6.6.y
+mkdir -p rockchip-linux_develop-6.1
+cd rockchip-linux_develop-6.1
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.6.y_kernel/Image
+wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/rockchip-linux_develop-6.1_kernel/Image
 ls -alh Image
 md5sum Image
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.6.y_kernel/config-6.6.y-kdev
-ls -alh config-6.6.y-kdev
-md5sum config-6.6.y-kdev
+wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/rockchip-linux_develop-6.1_kernel/config-6.1-kdev
+ls -alh config-6.1-kdev
+md5sum config-6.1-kdev
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.6.y_kernel/System.map-6.6.y-kdev
-ls -alh System.map-6.6.y-kdev
-md5sum System.map-6.6.y-kdev
+wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/rockchip-linux_develop-6.1_kernel/System.map-6.1-kdev
+ls -alh System.map-6.1-kdev
+md5sum System.map-6.1-kdev
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.6.y_kernel/rk3399-emb3531.dtb
+wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/rockchip-linux_develop-6.1_kernel/rk3399-emb3531.dtb
 ls -alh rk3399-emb3531.dtb
 md5sum rk3399-emb3531.dtb
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.6.y_kernel/kos.tar.gz
+wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/rockchip-linux_develop-6.1_kernel/kos.tar.gz
 ls -alh kos.tar.gz
 md5sum kos.tar.gz
 tar -xf kos.tar.gz
@@ -146,10 +146,10 @@ mount boot.img /mnt
 
 mkdir -p /mnt/dtb
 cp -a rk3399-emb3531.dtb /mnt/dtb/
-cp -f Image /mnt/vmlinuz-6.6.y-kdev
-cp -f config-6.6.y-kdev /mnt/config-6.6.y-kdev
-cp -f System.map-6.6.y-kdev /mnt/System.map-6.6.y-kdev
-touch /mnt/initrd.img-6.6.y-kdev
+cp -f Image /mnt/vmlinuz-6.1-kdev
+cp -f config-6.1-kdev /mnt/config-6.1-kdev
+cp -f System.map-6.1-kdev /mnt/System.map-6.1-kdev
+touch /mnt/initrd.img-6.1-kdev
 
 cat >/mnt/extlinux.conf <<EOF
 ## /extlinux/extlinux.conf
@@ -166,16 +166,16 @@ timeout 90
 
 
 label l0
-	menu label Linux kernel 6.6.y-kdev
-	linux vmlinuz-6.6.y-kdev
-	initrd initrd.img-6.6.y-kdev
+	menu label Linux kernel 6.1-kdev
+	linux vmlinuz-6.1-kdev
+	initrd initrd.img-6.1-kdev
 	fdt /dtb/rk3399-emb3531.dtb
 	append root=/dev/mmcblk0p3 rootwait rw console=ttyS2,1500000 console=tty1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M systemd.mask=systemd-growfs@-.service rockchip.dmc_freq=528000 video=HDMI-A-1:1920x1080@60
 
 label l0r
-	menu label Linux kernel 6.6.y-kdev (rescue target)
-	linux vmlinuz-6.6.y-kdev
-	initrd initrd.img-6.6.y-kdev
+	menu label Linux kernel 6.1-kdev (rescue target)
+	linux vmlinuz-6.1-kdev
+	initrd initrd.img-6.1-kdev
 	fdt /dtb/rk3399-emb3531.dtb
 	append root=/dev/mmcblk0p3 rootwait rw console=ttyS2,1500000 console=tty1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M single
 

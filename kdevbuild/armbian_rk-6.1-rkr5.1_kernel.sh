@@ -63,24 +63,25 @@ mv uboot.img ${WORKDIR}/release/uboot.img
 ls -alh ${WORKDIR}/release/uboot.img
 md5sum ${WORKDIR}/release/uboot.img
 
+
 #==========================================================================#
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}
-git clone https://github.com/ophub/linux-6.6.y.git linux-6.6.y.git
-cd linux-6.6.y.git
+git clone -b rk-6.1-rkr5.1 https://github.com/armbian/linux-rockchip linux-rockchip.git
+cd linux-rockchip.git
 ls -alh
 
 # apply patch
-if ls "${WORKDIR}/ophub_6.6.y/"*.patch >/dev/null 2>&1; then
+if ls "${WORKDIR}/armbian_rk-6.1-rkr5.1/"*.patch >/dev/null 2>&1; then
   git config --global user.name yifengyou
   git config --global user.email 842056007@qq.com
-  git am ${WORKDIR}/ophub_6.6.y/*.patch
+  git am ${WORKDIR}/armbian_rk-6.1-rkr5.1/*.patch
 fi
 
-if [ -d ${WORKDIR}/ophub_6.6.y ]; then
-  ls -alh ${WORKDIR}/ophub_6.6.y/
-  cp -a ${WORKDIR}/ophub_6.6.y/* .
+if [ -d ${WORKDIR}/armbian_rk-6.1-rkr5.1 ]; then
+  ls -alh ${WORKDIR}/armbian_rk-6.1-rkr5.1/
+  cp -a ${WORKDIR}/armbian_rk-6.1-rkr5.1/* .
   ls -alh
 fi
 
@@ -116,15 +117,7 @@ make ARCH=arm64 \
   KBUILD_BUILD_USER="builder" \
   KBUILD_BUILD_HOST="kdevbuilder" \
   LOCALVERSION=-kdev \
-  dtbs \
-  -j$(nproc)
-
-make ARCH=arm64 \
-  CROSS_COMPILE=aarch64-linux-gnu- \
-  KBUILD_BUILD_USER="builder" \
-  KBUILD_BUILD_HOST="kdevbuilder" \
-  LOCALVERSION=-kdev \
-  -j$(nproc)
+   -j$(nproc)
 
 make ARCH=arm64 \
   CROSS_COMPILE=aarch64-linux-gnu- \
@@ -141,6 +134,8 @@ make ARCH=arm64 \
   INSTALL_MOD_PATH=$(pwd)/kos \
   modules_install
 
+ls -alh arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
+
 # release kernel image
 ls -alh arch/arm64/boot/Image
 md5sum arch/arm64/boot/Image
@@ -152,14 +147,14 @@ md5sum ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
 cp -a ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb ${WORKDIR}/release/
 
 # release config
-cp .config ${WORKDIR}/release/config-6.6.y-kdev
-ls -alh ${WORKDIR}/release/config-6.6.y-kdev
-md5sum ${WORKDIR}/release/config-6.6.y-kdev
+cp .config ${WORKDIR}/release/config-6.1-kdev
+ls -alh ${WORKDIR}/release/config-6.1-kdev
+md5sum ${WORKDIR}/release/config-6.1-kdev
 
 # release system map
-cp System.map ${WORKDIR}/release/System.map-6.6.y-kdev
-ls -alh ${WORKDIR}/release/System.map-6.6.y-kdev
-md5sum ${WORKDIR}/release/System.map-6.6.y-kdev
+cp System.map ${WORKDIR}/release/System.map-6.1-kdev
+ls -alh ${WORKDIR}/release/System.map-6.1-kdev
+md5sum ${WORKDIR}/release/System.map-6.1-kdev
 
 # release kernel modules
 if [ -d kos/lib/modules ]; then

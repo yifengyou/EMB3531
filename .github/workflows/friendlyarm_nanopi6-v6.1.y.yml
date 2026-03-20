@@ -1,4 +1,4 @@
-name: ophub kernel 6.6.y
+name: friendlyarm kernel nanopi6-v6.1.y
 
 on:
   repository_dispatch:
@@ -70,8 +70,8 @@ jobs:
             -w /workspace \
             ubuntu:22.04 \
             bash -c "
-              chmod +x /workspace/kdevbuild/ophub_6.6.y_kernel.sh ;
-              /workspace/kdevbuild/ophub_6.6.y_kernel.sh
+              chmod +x /workspace/kdevbuild/friendlyarm_nanopi6-v6.1.y_kernel.sh ;
+              /workspace/kdevbuild/friendlyarm_nanopi6-v6.1.y_kernel.sh
             "
 
       - name: List build output
@@ -82,13 +82,13 @@ jobs:
       - name: Upload Kernel to Release
         uses: ncipollo/release-action@main
         with:
-          tag: ophub_6.6.y_kernel
+          tag: friendlyarm_nanopi6-v6.1.y_kernel
           artifacts: /builder/release/*
           allowUpdates: true
           removeArtifacts: false
           replacesArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          body: | # ophub_6.6.y_kernel
+          body: | # friendlyarm_nanopi6-v6.1.y_kernel
 
             ## 发布内容
             - **Image** - Linux 内核镜像
@@ -103,7 +103,7 @@ jobs:
 
             ## 免责声明
             - **按原样提供**：镜像不作任何保证，使用风险自负
-            - **无官方关联**：与猫头鹰微视科技有限公司无官方关系
+            - **无官方关联**：无任何官方关联关系
             - **安全提示**：请及时更新补丁、修改默认密码、配置防火墙
 
   build-image:
@@ -400,8 +400,8 @@ jobs:
             -e set_rootfs=${{ matrix.set_rootfs }} \
             ubuntu:22.04 \
             bash -c "
-              chmod +x /workspace/kdevbuild/ophub_6.6.y_image.sh ;
-              /workspace/kdevbuild/ophub_6.6.y_image.sh
+              chmod +x /workspace/kdevbuild/friendlyarm_nanopi6-v6.1.y_image.sh ;
+              /workspace/kdevbuild/friendlyarm_nanopi6-v6.1.y_image.sh
             "
 
       - name: List build output
@@ -412,13 +412,13 @@ jobs:
       - name: Upload Image to Release
         uses: ncipollo/release-action@main
         with:
-          tag: ophub_6.6.y_image
+          tag: friendlyarm_nanopi6-v6.1.y_image
           artifacts: /builder/release/*
           allowUpdates: true
           removeArtifacts: false
           replacesArtifacts: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          body: | # ophub_6.6.y_image
+          body: | # friendlyarm_nanopi6-v6.1.y_image
 
             ## 系统密码
 
@@ -457,5 +457,5 @@ jobs:
             ## 免责声明
 
             - **按原样提供**：镜像不作任何保证，使用风险自负
-            - **无官方关联**：与猫头鹰微视科技有限公司无官方关系
+            - **无官方关联**：无任何官方关联关系
             - **安全提示**：请及时更新补丁、修改默认密码、配置防火墙
