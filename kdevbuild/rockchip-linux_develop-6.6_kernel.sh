@@ -39,25 +39,25 @@ mkdir -p ${WORKDIR}/release
 #                        build uboot                                       #
 #==========================================================================#
 cd ${WORKDIR}/
-git clone -b stable-5.10-rock5 https://github.com/radxa/u-boot.git u-boot.git
+git clone https://github.com/yifengyou/emb3531-uboot u-boot.git
 cd u-boot.git
 ls -alh
 
 # apply patch
-if ls ${WORKDIR}/radxa-uboot/*.patch >/dev/null 2>&1; then
+if ls ${WORKDIR}/emb3531-uboot/*.patch >/dev/null 2>&1; then
   git config --global user.name yifengyou
   git config --global user.email 842056007@qq.com
-  git am ${WORKDIR}/radxa-uboot/*.patch
+  git am ${WORKDIR}/emb3531-uboot/*.patch
 fi
 
-tool=$(which aarch64-linux-gnu-gcc)
-export CROSS_COMPILE_ARM64="${tool%gcc}"
-echo "using gcc: [${CROSS_COMPILE_ARM64}]"
+export BL31=$(pwd)/rk3399_bl31_v1.36.elf
+make distclean
+make ARCH=arm64 emb3531-rk3399_defconfig
+make CROSS_COMPILE=/usr/bin/aarch64-linux-gnu- -j$(nproc)
+cp -a u-boot.itb uboot.img
+strings uboot.img |grep bootcmd=
+ls -alh uboot.img
 
-rm -rf spl/u-boot-spl*
-make CROSS_COMPILE=${CROSS_COMPILE_ARM64} rockchip-rk3399_defconfig
-make CROSS_COMPILE=${CROSS_COMPILE_ARM64} -j$(nproc)
-./make.sh rk3399
 mv uboot.img ${WORKDIR}/release/uboot.img
 
 ls -alh ${WORKDIR}/release/uboot.img
@@ -91,7 +91,7 @@ make ARCH=arm64 \
   KBUILD_BUILD_USER="builder" \
   KBUILD_BUILD_HOST="kdevbuilder" \
   LOCALVERSION=-kdev \
-  owl_rk3399_defconfig
+  rockchip_linux_defconfig
 
 make ARCH=arm64 \
   CROSS_COMPILE=aarch64-linux-gnu- \
@@ -120,7 +120,7 @@ make ARCH=arm64 \
   dtbs \
    -j$(nproc)
 
-ls -alh arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
+# ls -alh arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
 
 make ARCH=arm64 \
   CROSS_COMPILE=aarch64-linux-gnu- \
@@ -151,9 +151,9 @@ md5sum arch/arm64/boot/Image
 cp -a arch/arm64/boot/Image ${WORKDIR}/release/
 
 # release dtb
-ls -alh ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
-md5sum ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
-cp -a ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb ${WORKDIR}/release/
+#ls -alh ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
+#md5sum ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
+#cp -a ./arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb ${WORKDIR}/release/
 
 # release config
 cp .config ${WORKDIR}/release/config-6.6-kdev
