@@ -29,8 +29,8 @@ mkdir -p ${WORKDIR}/release
 #                        build uboot                                       #
 #==========================================================================#
 cd ${WORKDIR}/
-git clone -b stable-5.10-rock5 https://github.com/yifengyou/emb3531-uboot.git u-boot.git
-cd u-boot.git
+git clone --depth 1 -b master https://github.com/yifengyou/emb3531-uboot.git emb3531-uboot.git
+cd emb3531-uboot.git
 ls -alh
 
 make ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- emb3531-rk3399_defconfig all O=out -j$(nproc)
