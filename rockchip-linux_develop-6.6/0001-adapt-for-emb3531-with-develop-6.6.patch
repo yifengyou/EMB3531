@@ -1,4 +1,4 @@
-From 9aa081431e5d9d785725d9a3593c12aa01c70639 Mon Sep 17 00:00:00 2001
+From b992ceb1fef23b689a97796c81d7a431d0204d8a Mon Sep 17 00:00:00 2001
 From: yifengyou <842056007@qq.com>
 Date: Sun, 22 Mar 2026 01:15:21 +0000
 Subject: [PATCH] adapt for emb3531 with develop-6.6
@@ -19,7 +19,7 @@ index d46bc96f93a5..656772d63a5b 100644
  dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-firefly.dtb
 diff --git a/arch/arm64/boot/dts/rockchip/rk3399-emb3531.dts b/arch/arm64/boot/dts/rockchip/rk3399-emb3531.dts
 new file mode 100644
-index 000000000000..f61c92de75ef
+index 000000000000..ec013edbaed1
 --- /dev/null
 +++ b/arch/arm64/boot/dts/rockchip/rk3399-emb3531.dts
 @@ -0,0 +1,948 @@
@@ -44,7 +44,7 @@ index 000000000000..f61c92de75ef
 +	};
 +
 +	chosen {
-+		stdout-path = "serial2:1500000n8";
++		stdout-path = "serial2:115200n8";
 +	};
 +
 +	clkin_gmac: external-gmac-clock {
