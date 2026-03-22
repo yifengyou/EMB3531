@@ -36,35 +36,6 @@ mkdir -p ${WORKDIR}/rockdev
 mkdir -p ${WORKDIR}/release
 
 #==========================================================================#
-#                        build uboot                                       #
-#==========================================================================#
-cd ${WORKDIR}/
-git clone https://github.com/yifengyou/emb3531-uboot u-boot.git
-cd u-boot.git
-ls -alh
-
-# apply patch
-if ls ${WORKDIR}/emb3531-uboot/*.patch >/dev/null 2>&1; then
-  git config --global user.name yifengyou
-  git config --global user.email 842056007@qq.com
-  git am ${WORKDIR}/emb3531-uboot/*.patch
-fi
-
-export BL31=$(pwd)/rk3399_bl31_v1.36.elf
-make distclean
-make ARCH=arm64 emb3531-rk3399_defconfig
-make CROSS_COMPILE=/usr/bin/aarch64-linux-gnu- -j$(nproc)
-cp -a u-boot.itb uboot.img
-strings uboot.img |grep bootcmd=
-ls -alh uboot.img
-
-mv uboot.img ${WORKDIR}/release/uboot.img
-
-ls -alh ${WORKDIR}/release/uboot.img
-md5sum ${WORKDIR}/release/uboot.img
-
-
-#==========================================================================#
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}

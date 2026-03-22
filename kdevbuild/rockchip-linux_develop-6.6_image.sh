@@ -75,11 +75,12 @@ cd ${WORKDIR}
 mkdir -p rockchip-linux_develop-6.6
 cd rockchip-linux_develop-6.6
 
-wget -c https://github.com/yifengyou/EMB3531/releases/download/rockchip-linux_develop-6.6_kernel/uboot.img
-ls -alh uboot.img
-mv uboot.img ${WORKDIR}/rockdev/uboot.img
-ls -alh ${WORKDIR}/rockdev/uboot.img
-md5sum ${WORKDIR}/rockdev/uboot.img
+wget -c https://github.com/yifengyou/EMB3531/releases/download/uboot_v2017/uboot.img
+wget -c https://github.com/yifengyou/EMB3531/releases/download/uboot_v2017/trust.img
+ls -alh uboot.img trust.img
+mv uboot.img trust.img ${WORKDIR}/rockdev/uboot.img
+ls -alh ${WORKDIR}/rockdev/*.img
+md5sum ${WORKDIR}/rockdev/*.img
 
 #==========================================================================#
 #                        build kernel                                      #
