@@ -114,8 +114,11 @@ EMB-3531 串口节点如下:
 
 ![](./images/3478789992000.png)
 
+![](./images/3658479660400.png)
 
-短接点和金属接地段
+短接点和金属接地段。
+
+参看视频：[华北工控EMB3531 (RK3399)拆机测试](https://www.bilibili.com/video/BV1Ve2fYmEqd)
 
 方式二：
 
