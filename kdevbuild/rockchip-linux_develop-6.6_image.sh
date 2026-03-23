@@ -78,7 +78,8 @@ cd rockchip-linux_develop-6.6
 wget -c https://github.com/yifengyou/EMB3531/releases/download/uboot_v2017/uboot.img
 wget -c https://github.com/yifengyou/EMB3531/releases/download/uboot_v2017/trust.img
 ls -alh uboot.img trust.img
-mv uboot.img trust.img ${WORKDIR}/rockdev/
+mv uboot.img ${WORKDIR}/rockdev/uboot.img
+mv trust.img ${WORKDIR}/rockdev/trust.img
 ls -alh ${WORKDIR}/rockdev/*.img
 md5sum ${WORKDIR}/rockdev/*.img
 
@@ -171,14 +172,14 @@ label l0
 	linux vmlinuz-6.6-kdev
 	initrd initrd.img-6.6-kdev
 	fdt /dtb/rk3399-emb3531.dtb
-	append root=/dev/mmcblk2p4 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M systemd.mask=systemd-growfs@-.service rockchip.dmc_freq=528000 video=HDMI-A-1:1920x1080@60
+	append root=/dev/mmcblk0p4 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M systemd.mask=systemd-growfs@-.service rockchip.dmc_freq=528000 video=HDMI-A-1:1920x1080@60
 
 label l0r
 	menu label Linux kernel 6.6-kdev (rescue target)
 	linux vmlinuz-6.6-kdev
 	initrd initrd.img-6.6-kdev
 	fdt /dtb/rk3399-emb3531.dtb
-	append root=/dev/mmcblk2p4 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M single
+	append root=/dev/mmcblk0p4 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M single
 
 EOF
 
