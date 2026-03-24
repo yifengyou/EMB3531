@@ -134,6 +134,8 @@ ext4load mmc 0:3 0x01f00000 /dtb/rk3399-emb3531.dtb
 
 setenv bootargs 'root=/dev/mmcblk0p4 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M systemd.mask=systemd-growfs@-.service rockchip.dmc_freq=528000 video=HDMI-A-1:1920x1080@60'
 
+
+setenv bootargs 'root=/dev/mmcblk0p4 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M  video=HDMI-A-1:1920x1080@60'
 booti 0x02000000 - 0x01f00000
 ```
 
