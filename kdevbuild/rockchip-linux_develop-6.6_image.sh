@@ -82,6 +82,7 @@ mv uboot.img ${WORKDIR}/rockdev/uboot.img
 mv trust.img ${WORKDIR}/rockdev/trust.img
 ls -alh ${WORKDIR}/rockdev/*.img
 md5sum ${WORKDIR}/rockdev/*.img
+sha256sum ${WORKDIR}/rockdev/*.img
 
 #==========================================================================#
 #                        build kernel                                      #
@@ -238,8 +239,12 @@ cp -a ${WORKDIR}/rockchip-tools.git/RKDevTool-v2.84-EMB3531 \
 mkdir -p ${WORKDIR}/rockdev_img_tmp/RKDevTool/rockdev/image/
 
 cp -a ${WORKDIR}/rockdev/uboot.img ${WORKDIR}/rockdev_img_tmp/RKDevTool/rockdev/image/
+cp -a ${WORKDIR}/rockdev/trust.img ${WORKDIR}/rockdev_img_tmp/RKDevTool/rockdev/image/
 cp -a ${WORKDIR}/rockdev/boot.img ${WORKDIR}/rockdev_img_tmp/RKDevTool/rockdev/image/
 cp -a ${WORKDIR}/rockdev/rootfs.img ${WORKDIR}/rockdev_img_tmp/RKDevTool/rockdev/image/
+
+md5sum ${WORKDIR}/rockdev_img_tmp/RKDevTool/rockdev/image/*
+sha256sum ${WORKDIR}/rockdev_img_tmp/RKDevTool/rockdev/image/*
 
 cd ${WORKDIR}/rockdev_img_tmp/
 rar a ${WORKDIR}/release/${BUILD_TAG} RKDevTool
