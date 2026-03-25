@@ -22,5 +22,8 @@
     * [RTC时钟驱动](docs/驱动/RTC时钟驱动/RTC时钟驱动.md)
     * [电源驱动](docs/驱动/电源驱动/电源驱动.md)
     * [看门狗](docs/驱动/看门狗/看门狗.md)
+* [内核](docs/内核.md)
+  * [rockchip-linux仓库develop-6.6内核](docs/内核/rockchip-linux_develop6.6.md)
 * [系统](docs/系统.md)
     * [Ubuntu1804](docs/系统/Ubuntu1804/Ubuntu1804.md)
+
