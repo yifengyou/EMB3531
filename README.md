@@ -66,7 +66,22 @@
 * [PCIE接口使用](docs/PCIE接口使用/PCIE接口使用.md)
 * [TTL调试](docs/TTL调试/TTL调试.md)
 * [接口引脚定义](docs/接口引脚定义/接口引脚定义.md)
+* [GPIO计算方式](docs/GPIO计算方式/GPIO计算方式.md)
 * [相关图片](docs/相关图片/相关图片.md)
+* [uboot适配修改](docs/uboot适配修改/uboot适配修改.md)
+* [驱动](docs/驱动.md)
+    * [网卡驱动](docs/驱动/网卡驱动/网卡驱动.md)
+    * [LED驱动](docs/驱动/LED驱动/LED驱动.md)
+    * [USB驱动](docs/驱动/USB驱动/USB驱动.md)
+    * [HDMI驱动](docs/驱动/HDMI驱动/HDMI驱动.md)
+    * [音频驱动](docs/驱动/音频驱动/音频驱动.md)
+    * [按键驱动](docs/驱动/按键驱动/按键驱动.md)
+    * [RTC时钟驱动](docs/驱动/RTC时钟驱动/RTC时钟驱动.md)
+    * [电源驱动](docs/驱动/电源驱动/电源驱动.md)
+    * [看门狗](docs/驱动/看门狗/看门狗.md)
+* [系统](docs/系统.md)
+    * [Ubuntu1804](docs/系统/Ubuntu1804/Ubuntu1804.md)
+
 
 ---
 
