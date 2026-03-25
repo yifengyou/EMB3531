@@ -39,7 +39,7 @@ mkdir -p ${WORKDIR}/release
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}
-git clone -b master https://github.com/torvalds/linux torvalds_linux.git
+git clone --depth 1 -b master https://github.com/torvalds/linux torvalds_linux.git
 cd torvalds_linux.git
 ls -alh
 
