@@ -39,7 +39,7 @@ mkdir -p ${WORKDIR}/release
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}
-git clone -b master https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux_stable.git
+git clone --depth 1 -b master https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux_stable.git
 cd linux_stable.git
 ls -alh
 

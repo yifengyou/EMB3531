@@ -42,7 +42,7 @@ mkdir -p ${WORKDIR}/release
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}
-git clone -b linux-6.1-stan-rkr5.1 https://github.com/radxa/kernel radxa_kernel.git
+git clone --depth 1 -b linux-6.1-stan-rkr5.1 https://github.com/radxa/kernel radxa_kernel.git
 cd radxa_kernel.git
 ls -alh
 

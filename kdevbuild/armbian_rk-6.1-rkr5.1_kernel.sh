@@ -42,7 +42,7 @@ mkdir -p ${WORKDIR}/release
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}
-git clone -b rk-6.1-rkr5.1 https://github.com/armbian/linux-rockchip linux-rockchip.git
+git clone --depth 1 -b rk-6.1-rkr5.1 https://github.com/armbian/linux-rockchip linux-rockchip.git
 cd linux-rockchip.git
 ls -alh
 

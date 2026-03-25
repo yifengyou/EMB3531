@@ -42,7 +42,7 @@ mkdir -p ${WORKDIR}/release
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}
-git clone -b OLK-6.6 https://atomgit.com/openeuler/kernel openeuler_kernel.git
+git clone --depth 1 -b OLK-6.6 https://atomgit.com/openeuler/kernel openeuler_kernel.git
 cd openeuler_kernel.git
 ls -alh
 

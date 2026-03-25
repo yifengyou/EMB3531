@@ -42,7 +42,7 @@ mkdir -p ${WORKDIR}/release
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}
-git clone -b nanopi6-v6.1.y https://github.com/friendlyarm/kernel-rockchip friendlyarm_kernel-rockchip
+git clone --depth 1 -b nanopi6-v6.1.y https://github.com/friendlyarm/kernel-rockchip friendlyarm_kernel-rockchip
 cd friendlyarm_kernel-rockchip
 ls -alh
 

@@ -42,7 +42,7 @@ mkdir -p ${WORKDIR}/release
 #                        build kernel                                      #
 #==========================================================================#
 cd ${WORKDIR}
-git clone -b lbc-develop-6.1 https://github.com/LubanCat/kernel lubancat_kernel.git
+git clone --depth 1 -b lbc-develop-6.1 https://github.com/LubanCat/kernel lubancat_kernel.git
 cd lubancat_kernel.git
 ls -alh
 
