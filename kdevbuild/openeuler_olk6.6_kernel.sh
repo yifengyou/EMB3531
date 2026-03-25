@@ -35,9 +35,6 @@ localedef -i zh_CN -f UTF-8 zh_CN.UTF-8 || true
 mkdir -p ${WORKDIR}/rockdev
 mkdir -p ${WORKDIR}/release
 
-
-
-
 #==========================================================================#
 #                        build kernel                                      #
 #==========================================================================#
@@ -92,7 +89,7 @@ make ARCH=arm64 \
   KBUILD_BUILD_HOST="kdevbuilder" \
   LOCALVERSION=-kdev \
   dtbs \
-   -j$(nproc)
+  -j$(nproc)
 
 ls -alh arch/arm64/boot/dts/rockchip/rk3399-emb3531.dtb
 
@@ -101,7 +98,7 @@ make ARCH=arm64 \
   KBUILD_BUILD_USER="builder" \
   KBUILD_BUILD_HOST="kdevbuilder" \
   LOCALVERSION=-kdev \
-   -j$(nproc)
+  -j$(nproc)
 
 make ARCH=arm64 \
   CROSS_COMPILE=aarch64-linux-gnu- \
@@ -117,7 +114,6 @@ make ARCH=arm64 \
   LOCALVERSION=-kdev \
   INSTALL_MOD_PATH=$(pwd)/kos \
   modules_install
-
 
 # release kernel image
 ls -alh arch/arm64/boot/Image
