@@ -1,4 +1,4 @@
-From b64fed69fb650ac0fd793890e58f44cf39452f39 Mon Sep 17 00:00:00 2001
+From d943500c3fbf9453e0740d750e2302ac498376f2 Mon Sep 17 00:00:00 2001
 From: yifengyou <842056007@qq.com>
 Date: Sun, 22 Mar 2026 01:15:21 +0000
 Subject: [PATCH] adapt for emb3531 with torvalds kernel
@@ -978,10 +978,10 @@ index 000000000000..3da55221fce5
 +};
 diff --git a/arch/arm64/configs/rk3399-emb3531_defconfig b/arch/arm64/configs/rk3399-emb3531_defconfig
 new file mode 100644
-index 000000000000..e134849f755c
+index 000000000000..8ded15468f7b
 --- /dev/null
 +++ b/arch/arm64/configs/rk3399-emb3531_defconfig
-@@ -0,0 +1,619 @@
+@@ -0,0 +1,623 @@
 +CONFIG_WERROR=y
 +# CONFIG_LOCALVERSION_AUTO is not set
 +CONFIG_DEFAULT_HOSTNAME="localhost"
@@ -1540,6 +1540,10 @@ index 000000000000..e134849f755c
 +CONFIG_NVMEM_ROCKCHIP_OTP=y
 +CONFIG_TEE=y
 +CONFIG_OPTEE=y
++CONFIG_EXT4_FS=y
++CONFIG_EXT4_FS_POSIX_ACL=y
++CONFIG_EXT4_FS_SECURITY=y
++CONFIG_EXT4_DEBUG=y
 +CONFIG_XFS_FS=y
 +CONFIG_GFS2_FS=y
 +CONFIG_OCFS2_FS=y
