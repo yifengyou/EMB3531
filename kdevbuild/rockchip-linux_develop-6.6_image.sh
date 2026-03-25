@@ -172,14 +172,14 @@ label l0
 	linux vmlinuz-6.6-kdev
 	initrd initrd.img-6.6-kdev
 	fdt /dtb/rk3399-emb3531.dtb
-	append root=/dev/mmcblk0p4 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M systemd.mask=systemd-growfs@-.service rockchip.dmc_freq=528000 video=HDMI-A-1:1920x1080@60
+	append root=PARTUUID=614e0000-0000-4b53-8000-1d28000054a9 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M systemd.mask=systemd-growfs@-.service rockchip.dmc_freq=528000 video=HDMI-A-1:1920x1080@60
 
 label l0r
 	menu label Linux kernel 6.6-kdev (rescue target)
 	linux vmlinuz-6.6-kdev
 	initrd initrd.img-6.6-kdev
 	fdt /dtb/rk3399-emb3531.dtb
-	append root=/dev/mmcblk0p4 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M single
+	append root=PARTUUID=614e0000-0000-4b53-8000-1d28000054a9 rootwait rw console=ttyS2,115200 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M single
 
 EOF
 
