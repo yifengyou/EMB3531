@@ -4,7 +4,7 @@ set -euxo pipefail
 
 WORKDIR=$(pwd)
 export DEBIAN_FRONTEND=noninteractive
-export BUILD_TAG="OWL_6.18.y_${set_rootfs}"
+export BUILD_TAG="EMB3531_6.18.y_${set_rootfs}"
 
 #==========================================================================#
 #                        init build env                                    #
@@ -91,23 +91,23 @@ cd ${WORKDIR}
 mkdir -p ophub_6.18.y
 cd ophub_6.18.y
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.18.y_kernel/Image
+wget -c https://github.com/yifengyou/EMB3531/releases/download/ophub_6.18.y_kernel/Image
 ls -alh Image
 md5sum Image
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.18.y_kernel/config-6.18.y-kdev
+wget -c https://github.com/yifengyou/EMB3531/releases/download/ophub_6.18.y_kernel/config-6.18.y-kdev
 ls -alh config-6.18.y-kdev
 md5sum config-6.18.y-kdev
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.18.y_kernel/System.map-6.18.y-kdev
+wget -c https://github.com/yifengyou/EMB3531/releases/download/ophub_6.18.y_kernel/System.map-6.18.y-kdev
 ls -alh System.map-6.18.y-kdev
 md5sum System.map-6.18.y-kdev
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.18.y_kernel/rk3399-emb3531.dtb
+wget -c https://github.com/yifengyou/EMB3531/releases/download/ophub_6.18.y_kernel/rk3399-emb3531.dtb
 ls -alh rk3399-emb3531.dtb
 md5sum rk3399-emb3531.dtb
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.18.y_kernel/kos.tar.gz
+wget -c https://github.com/yifengyou/EMB3531/releases/download/ophub_6.18.y_kernel/kos.tar.gz
 ls -alh kos.tar.gz
 md5sum kos.tar.gz
 tar -xf kos.tar.gz
@@ -203,63 +203,6 @@ cp -a boot.img ${WORKDIR}/rockdev/boot.img
 ls -alh ${WORKDIR}/rockdev/boot.img
 md5sum ${WORKDIR}/rockdev/boot.img
 
-#==========================================================================#
-# Script Name: Generate Rockchip Updatable Image                           #
-# Description: This script is used to generate an updatable image package  #
-#              for Rockchip devices, including uboot, boot, and rootfs     #
-#              images. The generated images will be placed in the release  #
-#              directory for further use or distribution.                  #
-#                                                                          #
-# Output Directories and Files:                                            #
-#   - ${WORKDIR}/rockdev/uboot.img      : U-Boot bootloader image          #
-#   - ${WORKDIR}/rockdev/boot.img       : Boot partition image             #
-#   - ${WORKDIR}/rockdev/rootfs.img     : Root filesystem image            #
-#   - ${WORKDIR}/release                : Directory containing the final   #
-#                                         packaged update image            #
-#                                                                          #
-# Note: Ensure that all necessary source files are present in the          #
-#       specified directories before running this script.                  #
-#==========================================================================#
-
-# rootfs.img   : ${WORKDIR}/rockdev/rootfs.img
-# uboot.img    : ${WORKDIR}/rockdev/uboot.img
-# boot.img     : ${WORKDIR}/rockdev/boot.img
-# RKDevTool    : ${WORKDIR}/rockchip-tools.git/RKDevTool-v3.19-OWL-RK3588/
-# afptool      : ${WORKDIR}/rockchip-tools.git/afptool
-# rkImageMaker : ${WORKDIR}/rockchip-tools.git/rkImageMaker
-# template     : ${WORKDIR}/update_img_tmp/
-# output       : ${WORKDIR}/release/
-
-#cd ${WORKDIR}
-#git clone https://github.com/yifengyou/rockchip-tools.git rockchip-tools.git
-#ls -alh ${WORKDIR}/rockchip-tools.git
-#chmod +x ${WORKDIR}/rockchip-tools.git/afptool
-#chmod +x ${WORKDIR}/rockchip-tools.git/rkImageMaker
-
-#mkdir -p ${WORKDIR}/release
-#mkdir -p ${WORKDIR}/update_img_tmp
-#cp -a ${WORKDIR}/rockchip-tools.git/RKDevTool-v3.19-OWL-RK3588 \
-#  ${WORKDIR}/update_img_tmp/RKDevTool
-#mkdir -p ${WORKDIR}/update_img_tmp/RKDevTool/rockdev/image/
-#
-#cp -a ${WORKDIR}/rockdev/uboot.img ${WORKDIR}/update_img_tmp/RKDevTool/rockdev/image/
-#cp -a ${WORKDIR}/rockdev/boot.img ${WORKDIR}/update_img_tmp/RKDevTool/rockdev/image/
-#cp -a ${WORKDIR}/rockdev/rootfs.img ${WORKDIR}/update_img_tmp/RKDevTool/rockdev/image/
-#
-#cd ${WORKDIR}/update_img_tmp/RKDevTool/rockdev/image/
-#${WORKDIR}/rockchip-tools.git/afptool -pack . temp.img
-#${WORKDIR}/rockchip-tools.git/rkImageMaker \
-#  -RK3588 MiniLoaderAll.bin \
-#  temp.img \
-#  update.img \
-#  -os_type:androidos
-#find . -type f ! -name "update.img" -exec rm -f {} \;
-#
-## generate update.img
-#cd ${WORKDIR}/update_img_tmp/
-#rar a ${WORKDIR}/release/${BUILD_TAG}_update.rar RKDevTool
-#cd ${WORKDIR}/release/
-#sha256sum ${BUILD_TAG}_update.rar
 
 #==========================================================================#
 # Script Purpose: Generate Rockchip Firmware Image with RKDevTool          #
@@ -291,7 +234,7 @@ ls -alh ${WORKDIR}/rockchip-tools.git
 
 mkdir -p ${WORKDIR}/release
 mkdir -p ${WORKDIR}/rockdev_img_tmp
-cp -a ${WORKDIR}/rockchip-tools.git/RKDevTool-v3.19-OWL-RK3588 \
+cp -a ${WORKDIR}/rockchip-tools.git/RKDevTool-v2.84-EMB3531 \
   ${WORKDIR}/rockdev_img_tmp/RKDevTool
 mkdir -p ${WORKDIR}/rockdev_img_tmp/RKDevTool/rockdev/image/
 
