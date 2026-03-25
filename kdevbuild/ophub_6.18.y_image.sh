@@ -75,11 +75,13 @@ cd ${WORKDIR}
 mkdir -p ophub_6.18.y
 cd ophub_6.18.y
 
-wget -c https://github.com/yifengyou/rk3399-owl-ai-box-plus/releases/download/ophub_6.18.y_kernel/uboot.img
-ls -alh uboot.img
+wget -c https://github.com/yifengyou/EMB3531/releases/download/uboot_v2017/uboot.img
+wget -c https://github.com/yifengyou/EMB3531/releases/download/uboot_v2017/trust.img
+ls -alh uboot.img trust.img
 mv uboot.img ${WORKDIR}/rockdev/uboot.img
-ls -alh ${WORKDIR}/rockdev/uboot.img
-md5sum ${WORKDIR}/rockdev/uboot.img
+mv trust.img ${WORKDIR}/rockdev/trust.img
+ls -alh ${WORKDIR}/rockdev/*.img
+md5sum ${WORKDIR}/rockdev/*.img
 
 #==========================================================================#
 #                        build kernel                                      #
@@ -170,14 +172,14 @@ label l0
 	linux vmlinuz-6.18.y-kdev
 	initrd initrd.img-6.18.y-kdev
 	fdt /dtb/rk3399-emb3531.dtb
-	append root=/dev/mmcblk0p3 rootwait rw console=ttyS2,1500000 console=tty1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M systemd.mask=systemd-growfs@-.service rockchip.dmc_freq=528000 video=HDMI-A-1:1920x1080@60
+	append root=PARTUUID=614e0000-0000-4b53-8000-1d28000054a9 rootwait rw console=ttyS2,1500000 console=tty1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M systemd.mask=systemd-growfs@-.service rockchip.dmc_freq=528000 video=HDMI-A-1:1920x1080@60
 
 label l0r
 	menu label Linux kernel 6.18.y-kdev (rescue target)
 	linux vmlinuz-6.18.y-kdev
 	initrd initrd.img-6.18.y-kdev
 	fdt /dtb/rk3399-emb3531.dtb
-	append root=/dev/mmcblk0p3 rootwait rw console=ttyS2,1500000 console=tty1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M single
+	append root=PARTUUID=614e0000-0000-4b53-8000-1d28000054a9 rootwait rw console=ttyS2,1500000 console=tty1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory net.ifnames=0 biosdevname=0 level=10 loglevel=10 selinux=0 crashkernel=384M-:128M single
 
 EOF
 
