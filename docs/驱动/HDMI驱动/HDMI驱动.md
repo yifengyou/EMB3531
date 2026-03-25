@@ -197,3 +197,30 @@ EXPORT_SYMBOL_GPL(dw_hdmi_qp_suspend);
         *   主线程 `dw_hdmi_suspend` 永远拿不到锁，系统看门狗超时或打印 Call Trace 后挂死。
 
 
+```text
+[   24.273866] dwhdmi-rockchip ff940000.hdmi: can't find route
+[   24.290116] rockchip-drm display-subsystem: failed to bind ff940000.hdmi (ops 0xffffffc081cbfbf8): -19
+```
+
+*   **`can't find route`**: 这是 Rockchip DRM 驱动特有的错误。意味着 HDMI 驱动在尝试建立从 **VOP (Video Output Processor)** 到 **HDMI Controller** 再到 **Connector (显示器)** 的图形显示链路（CRTC -> Encoder -> Connector）时失败了。
+*   **`failed to bind ... : -19`**: 错误码 `-19` 对应 `ENODEV` (No such device)。因为找不到路由，HDMI 驱动拒绝绑定到 DRM 子系统。
+*   **后果**:
+    1.  `rockchip-drm` 子系统认为 HDMI 设备绑定失败。
+    2.  HDMI 驱动虽然探测到了硬件 (`Detected HDMI TX controller`)，但因为绑定失败，它的初始化流程中断，处于**“半残”状态**。
+    3.  依赖 HDMI 音频的 `hdmi-sound` 因为找不到后端，被放入 `devices_deferred`。
+    4.  **最关键点**：虽然绑定失败，但平台驱动 (`platform_driver`) 的 `probe` 可能已经部分执行（分配了内存、初始化了 mutex、注册了部分回调），导致在 `reboot` 时，内核依然会调用它的 `shutdown` 回调，从而进入**死锁陷阱**。
+
+通常是 **设备树 (DTS)** 配置问题。Rockchip 的 DRM 驱动依赖设备树中的 `ports` 和 `endpoint` 节点来自动构建显示链路。如果链路断开或方向错误，就会报这个错。
+
+常见原因：
+1.  **Endpoint 连接不匹配**：VOP 的输出端点 (`remote-endpoint`) 没有正确指向 HDMI 的输入端点，或者反之。
+2.  **Port 节点缺失或错误**：HDMI 节点下缺少 `ports` 子节点，或者 `reg` 属性配置错误。
+3.  **VOP 未启用或配置错误**：对应的 VOP 节点（如 `vop_lit` 或 `vop_big`）没有正确配置输出到 HDMI。
+4.  **循环依赖修复副作用**：日志开头显示 `Fixed dependency cycle(s)`。虽然内核尝试修复循环依赖，但这有时意味着设备树的图结构本身画得不对，导致驱动在解析拓扑时迷路。
+
+
+
+
+
+
+
